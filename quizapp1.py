@@ -34,6 +34,15 @@ DB_CONFIG = {
     'port': 3306,
 }
 
+def test_connection():
+    try:
+        conn = mysql.connector.connect(**DB_CONFIG)
+        print("Successfully connected!")
+        conn.close()
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+test_connection()
 QUIZ_DURATION = 300  # 5 minutes in seconds
 
 # Example set of questions
