@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent
 import toml
 
 # Load secrets from secrets.toml
-secrets = toml.load('secrets.toml')
+secrets = toml.load('.streamlit/secrets.toml')
 
 #DB_HOST = 'localhost'
 #DB_USER = 'root'
