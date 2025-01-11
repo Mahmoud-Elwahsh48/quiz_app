@@ -16,7 +16,6 @@ BASE_DIR = Path(__file__).resolve().parent
 import toml
 
 # Load secrets from secrets.toml
-secrets = toml.load('.streamlit/secrets.toml')
 
 #DB_HOST = 'localhost'
 #DB_USER = 'root'
@@ -32,6 +31,7 @@ DB_CONFIG = {
     'password': DB_PASSWORD,
     'host': DB_HOST,
     'database': DB_NAME,
+    'port': 3306,
 }
 
 QUIZ_DURATION = 300  # 5 minutes in seconds
