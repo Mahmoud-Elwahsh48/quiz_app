@@ -78,22 +78,25 @@ def check_if_taken(student_name, student_seat):
     return result is not None
 
 def create_tables():
-    conn = mysql.connector.connect(**DB_CONFIG)
-    cursor = conn.cursor()
-    
+    try:
+        conn = mysql.connector.connect(**DB_CONFIG)
+        cursor = conn.cursor()
 
-    cursor.execute('''CREATE TABLE IF NOT EXISTS responses (
-                        student_name VARCHAR(255),
-                        student_seat VARCHAR(255),
-                        submitted_name VARCHAR(255),
-                        submitted_seat VARCHAR(255),
-                        score INT,
-                        timestamp DATETIME,
-                        student_email VARCHAR(255)
-                    )''')
-    conn.commit()
-    cursor.close()
-    conn.close()
+        cursor.execute('''CREATE TABLE IF NOT EXISTS responses (
+                            student_name VARCHAR(255),
+                            student_seat VARCHAR(255),
+                            submitted_name VARCHAR(255),
+                            submitted_seat VARCHAR(255),
+                            score INT,
+                            timestamp DATETIME,
+                            student_email VARCHAR(255)
+                        )''')
+        conn.commit()
+        cursor.close()
+        conn.close()
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        # You can also log this error if necessary
 
 def add_columns_dynamically(num_questions):
     conn = mysql.connector.connect(**DB_CONFIG)
