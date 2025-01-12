@@ -99,6 +99,8 @@ def create_tables():
         # You can also log this error if necessary
 
 def add_columns_dynamically(num_questions):
+    cursor = None
+    conn = None
     try:
         conn = mysql.connector.connect(**DB_CONFIG)
         cursor = conn.cursor()
@@ -121,6 +123,7 @@ def add_columns_dynamically(num_questions):
             cursor.close()
         if conn:
             conn.close()
+
 
 
 create_tables()
