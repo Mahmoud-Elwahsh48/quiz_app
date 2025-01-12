@@ -99,18 +99,29 @@ def create_tables():
         # You can also log this error if necessary
 
 def add_columns_dynamically(num_questions):
-    conn = mysql.connector.connect(**DB_CONFIG)
-    cursor = conn.cursor()
-    for q_num in range(1, num_questions + 1):
-        try:
-            cursor.execute(f"ALTER TABLE responses ADD COLUMN q{q_num}_student_answer TEXT")
-            cursor.execute(f"ALTER TABLE responses ADD COLUMN q{q_num}_correct_answer TEXT")
-            cursor.execute(f"ALTER TABLE responses ADD COLUMN q{q_num}_score INT")
-        except mysql.connector.Error:
-            print(f"Columns for question {q_num} already exist.")
-    conn.commit()
-    cursor.close()
-    conn.close()
+    try:
+        conn = mysql.connector.connect(**DB_CONFIG)
+        cursor = conn.cursor()
+        for q_num in range(1, num_questions + 1):
+            column_checks = [
+                f"q{q_num}_student_answer",
+                f"q{q_num}_correct_answer",
+                f"q{q_num}_score"
+            ]
+            for column in column_checks:
+                cursor.execute(f"SHOW COLUMNS FROM responses LIKE '{column}'")
+                result = cursor.fetchone()
+                if not result:
+                    cursor.execute(f"ALTER TABLE responses ADD COLUMN {column} TEXT")
+            conn.commit()
+    except mysql.connector.Error as e:
+        print(f"Error: {e}")
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
 
 create_tables()
 add_columns_dynamically(len(questions))
