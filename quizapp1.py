@@ -293,8 +293,10 @@ def validate_student_details(name, seat):
     try:
         conn = mysql.connector.connect(**DB_CONFIG)
         cursor = conn.cursor()
+        print(f"Validating student: {name}, {seat}")  # Debugging line
         cursor.execute('SELECT * FROM student_list WHERE name = %s AND seat_number = %s', (name, seat))
         result = cursor.fetchone()
+        print(f"Query result: {result}")  # Debugging line
         return result is not None
     except mysql.connector.Error as err:
         print(f"Error: {err}")
