@@ -6,7 +6,7 @@ from pathlib import Path
 
 # Constants for database connection
 BASE_DIR = Path(__file__).resolve().parent
-DB_HOST = 'localhost'
+DB_HOST = '192.168.1.110'
 DB_USER = 'root'
 DB_PASSWORD = 'admin!@#123'
 DB_NAME = 'quiz_db2'  # Update database connection details
