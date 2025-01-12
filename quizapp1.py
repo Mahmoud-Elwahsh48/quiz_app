@@ -288,13 +288,21 @@ def show_quiz():
             return
 
 def validate_student_details(name, seat):
-    conn = mysql.connector.connect(**DB_CONFIG)
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM student_list WHERE name = %s AND seat_number = %s', (name, seat))
-    result = cursor.fetchone()
-    cursor.close()
-    conn.close()
-    return result is not None
+    try:
+        conn = mysql.connector.connect(**DB_CONFIG)
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM student_list WHERE name = %s AND seat_number = %s', (name, seat))
+        result = cursor.fetchone()
+        return result is not None
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        return False
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
 
 def calculate_score():
     responses = st.session_state.responses
