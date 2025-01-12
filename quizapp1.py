@@ -288,6 +288,8 @@ def show_quiz():
             return
 
 def validate_student_details(name, seat):
+    cursor = None
+    conn = None
     try:
         conn = mysql.connector.connect(**DB_CONFIG)
         cursor = conn.cursor()
